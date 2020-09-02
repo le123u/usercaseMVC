@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        window.onload = function () {
+            var img = document.querySelector("#checkCode")
+            img.onclick = function () {
+                var time = new Date().getTime()
+                img.src = "/checkServlet?"+time
+            }
+        }
+    </script>
+</head>
+<body>
+<img src="/checkServlet" alt="" id="checkCode">
+<a href="">点击图片更换验证码</a>
+<!--<script>-->
+<!--    var a = document.querySelector("a")-->
+<!--    var img = document.querySelector("img")-->
+<!--    a.addEventListener("click",function () {-->
+<!--        var time = new Date().getTime()-->
+<!--        img.src = "/checkServlet"+time-->
+
+<!--    })-->
+<!--</script>-->
+</body>
+</html>
