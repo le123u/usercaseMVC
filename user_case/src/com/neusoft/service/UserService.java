@@ -10,22 +10,24 @@ import java.util.Map;
  * 用户管理业务接口
  */
 
+
 public interface UserService {
     // 查询所有用户信息
-    public List<User> finaAll();
+    public List<User> findAll();
+
 
     void addUser(User user);
 
-    void updateUser(User user);
+    void update(User user);
 
     void deleteUser(String id);
 
     User findUserById(String id);
 
+    User login(User user);
 
-    User loginUser(User user);
-
-    void deleteSelectUser(String[] ids);
+    void deleteSelectedUser(String[] ids);
 
     public PageBean<User> findUserByPage(String _currentPage, String _rows, Map<String, String[]> condition);
+
 }

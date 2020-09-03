@@ -1,19 +1,21 @@
 package com.neusoft.service.Impl;
 
-import com.neusoft.dao.Impl.UserDaoImpl;
 import com.neusoft.dao.UserDao;
+import com.neusoft.dao.Impl.UserDaoImpl;
 import com.neusoft.domain.PageBean;
 import com.neusoft.domain.User;
 import com.neusoft.service.UserService;
+import com.sun.xml.internal.bind.v2.model.core.ID;
 
 import java.util.List;
 import java.util.Map;
 
+
 public class UserServiceImpl implements UserService {
     private UserDao dao = new UserDaoImpl();
     @Override
-    public List<User> finaAll() {
-        // 调用DAO
+    public List<User> findAll() {
+        // 调用dao 查询
         return dao.findAll();
     }
 
@@ -24,8 +26,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(User user) {
-        // 修改用户
+    public void update(User user) {
         dao.update(user);
     }
 
@@ -36,46 +37,54 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findUserById(String id) {
-       return dao.findById(Integer.parseInt(id));
+
+        return dao.findById(Integer.parseInt(id));
     }
 
     @Override
-    public User loginUser(User user) {
-        return dao.findUserByUsernameAndPassword(user.getUsername(),user.getPassword());
+    public User login(User user) {
+
+        return dao.findUserByUserNameAndPassword(user.getUsername(), user.getPassword());
     }
 
     @Override
-    public void deleteSelectUser(String[] ids) {
+    public void deleteSelectedUser(String[] ids) {
         // 根据id批量删除数据
-        if(ids != null && ids.length>0){
-            for(String id:ids){
+        if(ids!= null && ids.length>0){
+            for (String id:ids) {
                 dao.delete(Integer.parseInt(id));
             }
         }
     }
+
     @Override
-    public PageBean<User> findUserByPage(String _currentPage, String _rows,Map<String, String[]> condition){
+    public PageBean<User> findUserByPage(String _currentPage, String _rows, Map<String, String[]> condition){
         int currentPage = Integer.parseInt(_currentPage);
         int rows = Integer.parseInt(_rows);
         if (currentPage <= 0){
             currentPage = 1;
         }
-        // 创建PageBean对象
+        // 创建 PageBean对象
         PageBean<User> pb = new PageBean();
         // 设置参数
         pb.setCurrentPage(currentPage);
         pb.setRows(rows);
 
-        // 调用dao的查询总记录数
+        // 调用dao 的 查询总记录数
         int totalCount = dao.findTotalCount(condition);
         pb.setTotalCount(totalCount);
-        // 调用dao分页查询
+        // 调用 dao 分页查询
         int start = (currentPage-1)*rows;
         List<User> list = dao.findByPage(start, rows, condition);
         pb.setList(list);
         // 计算总页码
-        pb.setTotalPage(totalCount%rows == 0 ? totalCount/rows : totalCount/rows+1);
+        int totalPage = (totalCount%rows) == 0? totalCount/rows : totalCount/rows +1;
+        pb.setTotalPage(totalPage);
 
         return pb;
     }
+
+
+
+
 }

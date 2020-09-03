@@ -38,61 +38,42 @@
             }
         }
 
+
         window.onload = function () {
-            //给删除按钮添加单机事件
+            //  给删除按钮添加单机事件
             document.getElementById("delSelected").onclick = function () {
+                //用户安全提示
                 var flag = false;
                 if(confirm("您确定要删除吗？")){
-                    var cbs = document.getElementsByName("uid");
-                    for (var i = 0; i < cbs.length; i++) {
-                        if(cbs[i].checked){
+                    var cbs =  document.getElementsByName("uid");
+                    for (let i = 0; i < cbs.length; i++) {
+                        if (cbs[i].checked){
+                            // 有一个被选中了
                             flag = true;
                             break;
                         }
                     }
-                    if(flag){
-                        document.getElementById('form').submit();
+                    if (flag){
+                        document.getElementById("form").submit();
                     }
-                }
-            };
 
-            var cbs = document.getElementsByName("uid");
-            var firstCb = document.getElementById('firstCb');
-            for (var i = 0; i < cbs.length; i++) {
-                cbs[i].onclick = function () {
-                    var flag = true;
-                    if(this.checked === false){
-                        firstCb.checked = false;
-                    }else {
-                        for (var j = 0; j < cbs.length; j++) {
-                            if(cbs[j].checked === false){
-                                flag = false;
-                                break;
-                            }
-                        }
-                    // for (var i = 0; i < cbs.length; i++) {
-                    //     if (!cbs[i].checked){
-                    //         flag = false;
-                    //         break;
-                    //     }
-                    // }
-                        firstCb.checked = flag;
-                    }
                 }
             }
-
 
 
             // 获取第一个checkbox
             document.getElementById("firstCb").onclick = function () {
-                        // 全选
+                // 全选
+
                 var cbs =  document.getElementsByName("uid");
 
-                for (var i = 0; i < cbs.length; i++) {
+                for (let i = 0; i < cbs.length ; i++) {
                     cbs[i].checked = this.checked;
-
                 }
+
             }
+
+
         }
 
     </script>
@@ -103,10 +84,10 @@
 
     <div style="float: left;">
 
-        <form class="form-inline" action="" method="post">
+        <form class="form-inline" action="${pageContext.request.contextPath}/findUserByPageServlet" method="post">
             <div class="form-group">
                 <label for="exampleInputName2">姓名</label>
-                <input type="text" name="name" value="" class="form-control" id="exampleInputName2" >
+                <input type="text" name="name" value="${condition.name[0]}" class="form-control" id="exampleInputName2" >
             </div>
             <div class="form-group">
                 <label for="exampleInputName3">籍贯</label>
@@ -142,7 +123,7 @@
                 <th>操作</th>
             </tr>
 
-<%--            <c:forEach items="${users}" var="user" varStatus="s">--%>
+            <%--            <c:forEach items="${users}" var="user" varStatus="s">--%>
             <c:forEach items="${pb.list}" var="user" varStatus="s">
                 <tr>
                     <td><input type="checkbox" name="uid" value="${user.id}"></td>
@@ -165,47 +146,52 @@
     <div>
         <nav aria-label="Page navigation">
             <ul class="pagination">
-<%--               左箭头--%>
-                <c:if test="${pb.currentPage == 1} ">
-                    <li class="disabled">
+
+                <%--                左箭头--%>
+
+                <c:if test="${pb.currentPage  == 1}">
+                <li class="disabled">
                 </c:if>
-                <c:if test="${pb.currentPage != 1} ">
-                    <li>
-                 </c:if>
+                <c:if test="${pb.currentPage != 1}">
+                <li >
+                </c:if>
 
-                    <a href="${pageContext.request.contextPath}/findUserByPageServlet?currentPage = ${pb.currentPage - 1}&&rows=5" aria-label="Previous">
+                 <a href="${pageContext.request.contextPath}/findUserByPageServlet?currentPage=${pb.currentPage-1}&rows=5&name=${condition.name[0]}&address=${condition.address[0]}&email=${condition.email[0]}" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
-                    </a>
+                 </a>
+                </li>
 
-<%--    列表--%>
 
-                <c:forEach begin="1" end="${pb.totalPage} " var="i">
-<%--                    当前页--%>
-                     <c:if test="${pb.currentPage == i} ">
-                           <li class="active"><a href="${pageContext.request.contextPath}/findUserByPageServlet?currentPage = ${i}&&rows=5">${i}</a></li>
+                <%--    列表--%>
+                <c:forEach begin="1" end="${pb.totalPage}" var="i">
+                    <%--当前页--%>
+                    <c:if test="${pb.currentPage  == i}">
+                        <li class="active">
+                        <a href="${pageContext.request.contextPath}/findUserByPageServlet?currentPage=${i}&rows=5&name=${condition.name[0]}&address=${condition.address[0]}&email=${condition.email[0]}">${i}</a> </li>
                     </c:if>
-<%--                    其他页--%>
-                        <c:if test="${pb.currentPage != i} ">
-                            <li ><a href="${pageContext.request.contextPath}/findUserByPageServlet?currentPage = ${i}&&rows=5">${i}</a></li>
+                    <%--其他页--%>
+                    <c:if test="${pb.currentPage  != i}">
+                        <li><a href="${pageContext.request.contextPath}/findUserByPageServlet?currentPage=${i}&rows=5&name=${condition.name[0]}&address=${condition.address[0]}&email=${condition.email[0]}">${i}</a></li>
+                    </c:if>
+                </c:forEach>
+
+                    <c:if test="${pb.currentPage  == pb.totalPage}">
+                    <li class="disabled">
+                        </c:if>
+                            <c:if test="${pb.currentPage != pb.totalPage}">
+                    <li >
                         </c:if>
 
-                </c:forEach>
-                </li>
-                <li><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
-                <c:if test="${pb.currentPage == 1} ">
-                         <li class="disabled">
-                 </c:if>
-                <c:if test="${pb.currentPage != 1} ">
-                        <li>
-                  </c:if>
-                    <a href="${pageContext.request.contextPath}/findUserByPageServlet?currentPage = ${pb.currentPage - 1}&&rows=5" aria-label="Next">
+
+
+                    <a href="${pageContext.request.contextPath}/findUserByPageServlet?currentPage=${pb.currentPage+1}&rows=5&name=${condition.name[0]}&address=${condition.address[0]}&email=${condition.email[0]}" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>
+
+
+
+
                 <span style="font-size: 25px;margin-left: 5px;">
                     共${pb.totalCount}条记录，共${pb.totalPage}页
                 </span>

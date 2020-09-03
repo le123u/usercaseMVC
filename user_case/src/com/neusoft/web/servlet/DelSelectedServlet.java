@@ -22,7 +22,8 @@ public class DelSelectedServlet extends HttpServlet {
        // 获取所有选中的uid
         String[] uids = req.getParameterValues("uid");
         UserServiceImpl service = new UserServiceImpl();
-        service.deleteSelectUser(uids);
-        resp.sendRedirect(req.getContextPath()+"/userListServlet");
+        service.deleteSelectedUser(uids);
+//        resp.sendRedirect(req.getContextPath()+"/userListServlet");
+        resp.sendRedirect(req.getContextPath()+"/findUserByPageServlet");
     }
 }

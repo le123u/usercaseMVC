@@ -48,7 +48,7 @@ public class LoginServlet extends HttpServlet {
 
         // service 查询
         UserServiceImpl service = new UserServiceImpl();
-        User loginUser = service.loginUser(user);
+        User loginUser = service.login(user);
         if (loginUser!=null){
             session.setAttribute("user",loginUser);
             resp.sendRedirect(req.getContextPath()+"/index.jsp");

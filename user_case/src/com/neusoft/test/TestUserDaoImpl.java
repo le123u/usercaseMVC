@@ -50,7 +50,7 @@ public class TestUserDaoImpl {
         @Test
     public void test4(){
             UserDaoImpl userDao = new UserDaoImpl();
-            User user = userDao.findUserByUsernameAndPassword("aaa", "123");
+            User user = userDao.findUserByUserNameAndPassword("aaa", "123");
             System.out.println(user);
         }
 }

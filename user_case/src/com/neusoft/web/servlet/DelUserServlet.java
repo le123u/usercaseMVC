@@ -27,6 +27,7 @@ public class DelUserServlet extends HttpServlet {
         service.deleteUser(id);
 
         // 重定向到list页面
-        resp.sendRedirect(req.getContextPath()+"/userListServlet");
+//        resp.sendRedirect(req.getContextPath()+"/userListServlet");
+        resp.sendRedirect(req.getContextPath()+"/findUserByPageServlet");
     }
 }

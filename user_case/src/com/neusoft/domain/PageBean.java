@@ -2,6 +2,7 @@ package com.neusoft.domain;
 
 import java.util.List;
 
+
 public class PageBean<T> {
     //  总记录条数
     private int totalCount;
@@ -13,9 +14,6 @@ public class PageBean<T> {
     private List<T> list;
     // 当前页码
     private int currentPage;
-
-    public PageBean() {
-    }
 
     public int getTotalCount() {
         return totalCount;
